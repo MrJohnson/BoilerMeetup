@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -17,17 +21,35 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.melnykov.fab.FloatingActionButton;
 
 public class MapsActivity extends ActionBarActivity implements OnMarkerClickListener{
     private static final LatLng MAP_HOME = new LatLng(40.424489, -86.921109);
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private Marker home_marker;
+    ImageButton runCommand;
 
+/*
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_activity_actions, menu);
 
+        return super.onCreateOptionsMenu(menu);
+    }
+*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Toast.makeText(getApplicationContext(), "FABulous Click!", Toast.LENGTH_SHORT).show();
+            }
+        });
         setUpMapIfNeeded();
     }
 
