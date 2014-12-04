@@ -1,14 +1,10 @@
 package com.digifficient.boilermeetup;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -16,7 +12,6 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
-
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -48,6 +43,9 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
             @Override
             public void onClick(View v){
                 Toast.makeText(getApplicationContext(), "FABulous Click!", Toast.LENGTH_SHORT).show();
+                Intent nintent = new Intent(v.getContext(), AddEventActivity.class);
+                //Intent urlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.cs.purdue.edu"));
+                startActivity(nintent);
             }
         });
         setUpMapIfNeeded();

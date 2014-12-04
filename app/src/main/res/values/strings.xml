@@ -4,6 +4,7 @@
     <string name="app_name">BoilerMeetup</string>
     <string name="title_activity_maps">Event Map</string>
     <string name="title_event_info_activity">Event Info</string>
+    <string name="title_add_event_activity">Add Event</string>
     <string name="google_maps_key"></string>
 
 </resources>

@@ -46,6 +46,13 @@
             android:theme="@style/Theme.AppCompat"
           >
         </activity>
+
+        <activity
+            android:name="com.digifficient.boilermeetup.AddEventActivity"
+            android:label="@string/title_add_event_activity"
+            android:theme="@style/Theme.AppCompat"
+            >
+        </activity>
     </application>
 
 </manifest>
