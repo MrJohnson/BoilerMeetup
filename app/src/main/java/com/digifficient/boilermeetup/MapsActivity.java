@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.melnykov.fab.FloatingActionButton;
 
+
 public class MapsActivity extends ActionBarActivity implements OnMarkerClickListener{
     private static final LatLng MAP_HOME = new LatLng(40.424489, -86.921109);
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
