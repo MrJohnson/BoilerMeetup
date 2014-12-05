@@ -95,6 +95,7 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
     private void setUpMap() {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(MAP_HOME, 12));
         home_marker = mMap.addMarker(new MarkerOptions().snippet("TEST").position(new LatLng(40.424489, -86.921109)).title("Purdue University"));
+        Marker sexDen = mMap.addMarker(new MarkerOptions().snippet("The Sex Den").position(new LatLng(40.425762, -86.904411)).title("The Sex Den"));
         mMap.setOnMarkerClickListener((OnMarkerClickListener) this);
     }
 
@@ -103,7 +104,7 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
     @Override
     public boolean onMarkerClick(Marker marker){
         Log.i("GoogleMapActivity", "OnMarkerClick");
-        Toast.makeText(getApplicationContext(), "Marker Clicked " + marker.getTitle() + "\nPosition " + marker.getPosition(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "Marker Clicked: " + marker.getTitle() + "\nPosition " + marker.getPosition(), Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, EventInfoActivity.class);
         //Intent urlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.cs.purdue.edu"));
         startActivity(intent);

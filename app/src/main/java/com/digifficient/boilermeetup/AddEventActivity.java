@@ -10,7 +10,7 @@ public class AddEventActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.event_view);
+        setContentView(R.layout.add_event);
     }
 
 }
