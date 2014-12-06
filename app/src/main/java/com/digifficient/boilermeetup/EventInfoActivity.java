@@ -20,12 +20,16 @@ public class EventInfoActivity extends ActionBarActivity implements GoogleMap.On
     private static final LatLng MAP_HOME = new LatLng(40.424489, -86.921109);
     private GoogleMap eMap;
     private Marker home_marker;
+    private Event e;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_view);
+        e = new Event();
+        getEventInfo();
         setUpMapIfNeeded();
+
     }
 
     @Override
@@ -48,8 +52,8 @@ public class EventInfoActivity extends ActionBarActivity implements GoogleMap.On
     }
 
     private void setUpMap() {
-        eMap.moveCamera(CameraUpdateFactory.newLatLngZoom(MAP_HOME, 15));
-        home_marker = eMap.addMarker(new MarkerOptions().snippet("TEST").position(new LatLng(40.424489, -86.921109)).title("Purdue University"));
+        eMap.moveCamera(CameraUpdateFactory.newLatLngZoom(e.getPositiion(), 15));
+        Marker eMarker = eMap.addMarker(new MarkerOptions().snippet(e.getEventId()).position(e.getPositiion()).title("EVENT NAME"));
         eMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) this);
     }
 
@@ -58,5 +62,16 @@ public class EventInfoActivity extends ActionBarActivity implements GoogleMap.On
         Log.i("GoogleMapActivity", "OnMarkerClick");
         Toast.makeText(getApplicationContext(), "Marker Clicked: " + marker.getTitle() + "\nPosition " + marker.getPosition(), Toast.LENGTH_LONG).show();
         return true;
+    }
+
+    public void getEventInfo(){
+        Bundle bundle = getIntent().getParcelableExtra("bundle");
+        e.setEventId(bundle.getString("id"));
+        e.setPosition((LatLng) bundle.getParcelable("position"));
+        Toast.makeText(getApplicationContext(), "Id" + e.getEventId(), Toast.LENGTH_LONG).show();
+        //GET STUFF FROM SERVER
+        e.setDescription("Generic description");
+        e.setLocation("Generic location name");
+        e.setStartTime("December 99, 9999 25:64 pm");
     }
 }

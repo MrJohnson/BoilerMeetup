@@ -20,7 +20,7 @@ import com.melnykov.fab.FloatingActionButton;
 
 
 public class MapsActivity extends ActionBarActivity implements OnMarkerClickListener{
-    private static final LatLng MAP_HOME = new LatLng(40.424489, -86.921109);
+    private static final LatLng MAP_HOME = new LatLng(40.423680, -86.921195);
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private Marker home_marker;
     ImageButton runCommand;
@@ -94,8 +94,8 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
      */
     private void setUpMap() {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(MAP_HOME, 12));
-        home_marker = mMap.addMarker(new MarkerOptions().snippet("TEST").position(new LatLng(40.424489, -86.921109)).title("Purdue University"));
-        Marker sexDen = mMap.addMarker(new MarkerOptions().snippet("The Sex Den").position(new LatLng(40.425762, -86.904411)).title("The Sex Den"));
+        home_marker = mMap.addMarker(new MarkerOptions().snippet("9999").position(new LatLng(40.424489, -86.921109)).title("Purdue University"));
+        Marker sexDen = mMap.addMarker(new MarkerOptions().snippet("6969").position(new LatLng(40.425762, -86.904411)).title("The Sex Den"));
         mMap.setOnMarkerClickListener((OnMarkerClickListener) this);
     }
 
@@ -106,6 +106,10 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
         Log.i("GoogleMapActivity", "OnMarkerClick");
         Toast.makeText(getApplicationContext(), "Marker Clicked: " + marker.getTitle() + "\nPosition " + marker.getPosition(), Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, EventInfoActivity.class);
+        Bundle args = new Bundle();
+        args.putString("id", marker.getSnippet());
+        args.putParcelable("position", marker.getPosition());
+        intent.putExtra("bundle", args);
         //Intent urlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.cs.purdue.edu"));
         startActivity(intent);
         return true;
