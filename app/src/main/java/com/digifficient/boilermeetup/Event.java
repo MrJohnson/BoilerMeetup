@@ -1,20 +1,41 @@
 package com.digifficient.boilermeetup;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
+
+import com.google.android.gms.internal.id;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Created by taylor on 12/6/14.
  */
-public class Event {
-    private String id;
+public class Event{
+    private int eventId;
+    private String name;
     private LatLng position;
     private String location;
     private String description;
     private String startTime;
     private int numAttendees;
 
-    public String getEventId(){
-        return this.id;
+    /*
+    public Event(int id, LatLng position, String location, String description, String startTime, int numAttendees){
+        this.eventId = id;
+        this.position = position;
+        this.location = location;
+        this.description = description;
+        this.startTime = startTime;
+        this.numAttendees = numAttendees;
+    }
+    */
+
+    public int getEventId(){
+        return this.eventId;
+    }
+
+    public String getName(){
+        return this.name;
     }
 
     public LatLng getPositiion(){
@@ -38,8 +59,12 @@ public class Event {
     }
 
 
-    public void setEventId(String id){
-        this.id = id;
+    public void setEventId(int id){
+       this.eventId = id;
+    }
+
+    public void setName(String name){
+        this.name = name;
     }
 
     public void setPosition(LatLng position){

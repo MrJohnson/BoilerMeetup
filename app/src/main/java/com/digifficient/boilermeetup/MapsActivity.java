@@ -18,12 +18,18 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.melnykov.fab.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MapsActivity extends ActionBarActivity implements OnMarkerClickListener{
     private static final LatLng MAP_HOME = new LatLng(40.423680, -86.921195);
+    private static final LatLng LWSN = new LatLng(40.427679, -86.916946);
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    int numEvents;
+    //Event[] eventArray;
+    List<Marker> markers = new ArrayList<Marker>();
     private Marker home_marker;
-    ImageButton runCommand;
 
 /*
     @Override
@@ -93,6 +99,7 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
+        refreshEvents();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(MAP_HOME, 12));
         home_marker = mMap.addMarker(new MarkerOptions().snippet("9999").position(new LatLng(40.424489, -86.921109)).title("Purdue University"));
         Marker sexDen = mMap.addMarker(new MarkerOptions().snippet("6969").position(new LatLng(40.425762, -86.904411)).title("The Sex Den"));
@@ -113,6 +120,44 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
         //Intent urlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.cs.purdue.edu"));
         startActivity(intent);
         return true;
+    }
+
+
+
+    public void refreshEvents(){
+        //communicate with server, populate array of events
+        numEvents = 2;
+        /*
+        eventArray = new Event[numEvents];
+
+        eventArray[0].setEventId(1111);
+        eventArray[0].setName("Purdue Event");
+        eventArray[0].setLocation("Purdue University");
+        eventArray[0].setStartTime("Dec. 25, 2014 @ 12:00 am");
+        eventArray[0].setPosition(MAP_HOME);
+        eventArray[0].setDescription("This is Purdue University");
+        eventArray[0].setNumAttendees(40000);
+
+        eventArray[1].setEventId(1010);
+        eventArray[1].setName("CS252 Coding Session");
+        eventArray[1].setLocation("LWSN B146");
+        eventArray[1].setStartTime("Dec. 8, 2014 @ 2:00 pm");
+        eventArray[1].setPosition(LWSN);
+        eventArray[1].setDescription("We will meet to continue working on our app!");
+        eventArray[1].setNumAttendees(1);
+        */
+
+        /*
+        for(int i = 0; i < numEvents; i++){
+            //Marker snippet is index of event in a
+            Marker marker = mMap.addMarker(new MarkerOptions().snippet(Integer.toString(i)).position(eventArray[i].getPositiion()).title(eventArray[i].getName()));
+            markers.add(marker);
+        }
+
+        markers.size();
+
+        */
+
     }
 
 

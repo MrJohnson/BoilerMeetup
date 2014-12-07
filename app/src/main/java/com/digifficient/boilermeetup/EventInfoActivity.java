@@ -53,7 +53,7 @@ public class EventInfoActivity extends ActionBarActivity implements GoogleMap.On
 
     private void setUpMap() {
         eMap.moveCamera(CameraUpdateFactory.newLatLngZoom(e.getPositiion(), 15));
-        Marker eMarker = eMap.addMarker(new MarkerOptions().snippet(e.getEventId()).position(e.getPositiion()).title("EVENT NAME"));
+        Marker eMarker = eMap.addMarker(new MarkerOptions().snippet(Integer.toString(e.getEventId())).position(e.getPositiion()).title("EVENT NAME"));
         eMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) this);
     }
 
@@ -66,7 +66,7 @@ public class EventInfoActivity extends ActionBarActivity implements GoogleMap.On
 
     public void getEventInfo(){
         Bundle bundle = getIntent().getParcelableExtra("bundle");
-        e.setEventId(bundle.getString("id"));
+        e.setEventId(Integer.parseInt(bundle.getString("id")));
         e.setPosition((LatLng) bundle.getParcelable("position"));
         Toast.makeText(getApplicationContext(), "Id" + e.getEventId(), Toast.LENGTH_LONG).show();
         //GET STUFF FROM SERVER
