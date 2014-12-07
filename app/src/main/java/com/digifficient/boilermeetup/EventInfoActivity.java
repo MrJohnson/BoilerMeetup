@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -70,8 +71,17 @@ public class EventInfoActivity extends ActionBarActivity implements GoogleMap.On
         e.setPosition((LatLng) bundle.getParcelable("position"));
         Toast.makeText(getApplicationContext(), "Id" + e.getEventId(), Toast.LENGTH_LONG).show();
         //GET STUFF FROM SERVER
+        e.setName("TEST NAME");
         e.setDescription("Generic description");
         e.setLocation("Generic location name");
         e.setStartTime("December 99, 9999 25:64 pm");
+        TextView name = (TextView) findViewById(R.id.EventName);
+        name.setText(e.getName());
+        TextView description = (TextView) findViewById(R.id.EventDescription);
+        description.setText(e.getDesription());
+        TextView date = (TextView) findViewById(R.id.EventDate);
+        date.setText(e.getStartTime());
+        TextView location = (TextView) findViewById(R.id.EventLocationName);
+        location.setText(e.getLocation());
     }
 }
