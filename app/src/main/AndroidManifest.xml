@@ -32,7 +32,7 @@
         <activity
             android:name="com.digifficient.boilermeetup.MapsActivity"
             android:label="@string/title_activity_maps"
-            android:theme="@style/Theme.AppCompat">
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,15 +43,14 @@
         <activity
             android:name="com.digifficient.boilermeetup.EventInfoActivity"
             android:label="@string/title_event_info_activity"
-            android:theme="@style/Theme.AppCompat"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
           >
         </activity>
 
         <activity
             android:name="com.digifficient.boilermeetup.AddEventActivity"
             android:label="@string/title_add_event_activity"
-            android:theme="@style/Theme.AppCompat"
-            >
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"            >
         </activity>
     </application>
 
