@@ -35,8 +35,7 @@
         android:ems="10"
         android:id="@+id/event_date_field"
         android:hint="@string/event_date_hint"
-        android:onClick="onClick"
-        android:clickable="true"/>
+       />
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
