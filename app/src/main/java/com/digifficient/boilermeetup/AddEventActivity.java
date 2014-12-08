@@ -1,6 +1,5 @@
 package com.digifficient.boilermeetup;
 
-import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -9,15 +8,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 
 import java.util.Calendar;
 import java.util.List;
@@ -119,6 +120,12 @@ public class AddEventActivity extends ActionBarActivity implements OnMarkerDragL
                 position.latitude,
                 position.longitude));
         String address = getCompleteAddressString(position.latitude,position.longitude);
+        EditText location = (EditText) findViewById(R.id.location_name_field);
+        String customLocName = location.getText().toString();
+        if(customLocName.trim().length() == 0 ){
+            Toast.makeText(getApplicationContext(), "NO ADDRESS SPECIFIED BY USER" , Toast.LENGTH_SHORT).show();
+            location.setText(address, TextView.BufferType.EDITABLE);
+        }
         Toast.makeText(getApplicationContext(), "Marker Dragged to: " + position + "\nAddress:\n" + address , Toast.LENGTH_LONG).show();
 
     }
