@@ -6,6 +6,9 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,6 +42,30 @@ public class AddEventActivity extends ActionBarActivity implements OnMarkerDragL
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.add_event_activity_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_accept_event:
+                //send event info to server after checking
+                Toast.makeText(getApplicationContext(), "Clicked Select", Toast.LENGTH_SHORT).show();
+                return true;
+            //case R.id.action_settings:
+            //openSettings();
+            //return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
@@ -60,6 +87,7 @@ public class AddEventActivity extends ActionBarActivity implements OnMarkerDragL
     private void setUpMap() {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(MAP_HOME, 12));
         home_marker = mMap.addMarker(new MarkerOptions().position(MAP_HOME).draggable(true).title("Drag to location"));
+        home_marker.showInfoWindow();
         mMap.setOnMarkerDragListener((GoogleMap.OnMarkerDragListener) this);
     }
 
@@ -75,6 +103,7 @@ public class AddEventActivity extends ActionBarActivity implements OnMarkerDragL
     @Override
     public void onMarkerDrag(Marker marker) {
         LatLng position=marker.getPosition();
+        marker.hideInfoWindow();
 
         Log.d(getClass().getSimpleName(),
                 String.format("Dragging to %f:%f", position.latitude,

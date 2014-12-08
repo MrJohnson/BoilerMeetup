@@ -7,6 +7,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -35,16 +38,33 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
     List<Marker> markers = new ArrayList<Marker>();
     private Marker home_marker;
 
-/*
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_activity_actions, menu);
-
+        inflater.inflate(R.menu.maps_activity_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-*/
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                //openSearch();
+                Toast.makeText(getApplicationContext(), "Clicked Search", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_refresh:
+                Toast.makeText(getApplicationContext(), "Clicked Refresh", Toast.LENGTH_LONG).show();
+                return true;
+            //case R.id.action_settings:
+                //openSettings();
+                //return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
