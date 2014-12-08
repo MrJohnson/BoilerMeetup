@@ -1,11 +1,15 @@
 package com.digifficient.boilermeetup;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -45,6 +49,16 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+/*
+        Window window = activity.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(activity.getResources().getColor(R.color.example_color));
+        */
+
+        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+          //  getWindow().setStatusBarColor();
+
         FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -101,8 +115,9 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
     private void setUpMap() {
         refreshEvents();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(MAP_HOME, 12));
-        home_marker = mMap.addMarker(new MarkerOptions().snippet("9999").position(new LatLng(40.424489, -86.921109)).title("Purdue University"));
-        Marker sexDen = mMap.addMarker(new MarkerOptions().snippet("6969").position(new LatLng(40.425762, -86.904411)).title("The Sex Den"));
+        home_marker = mMap.addMarker(new MarkerOptions().snippet("9999").position(MAP_HOME).title("Purdue University"));
+        Marker sexDen = mMap.addMarker(new MarkerOptions().snippet("6969").position(new LatLng(40.425683, -86.904467)).title("The Sex Den"));
+        Marker lawson = mMap.addMarker(new MarkerOptions().snippet("1111").position(LWSN).title("Lawson Computer Science Building"));
         mMap.setOnMarkerClickListener((OnMarkerClickListener) this);
     }
 
@@ -117,7 +132,6 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
         args.putString("id", marker.getSnippet());
         args.putParcelable("position", marker.getPosition());
         intent.putExtra("bundle", args);
-        //Intent urlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.cs.purdue.edu"));
         startActivity(intent);
         return true;
     }

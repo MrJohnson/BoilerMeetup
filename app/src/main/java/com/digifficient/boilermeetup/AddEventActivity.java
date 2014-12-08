@@ -1,6 +1,8 @@
 package com.digifficient.boilermeetup;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -13,6 +15,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
+
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by taylor on 12/3/14.
@@ -54,7 +59,7 @@ public class AddEventActivity extends ActionBarActivity implements OnMarkerDragL
 
     private void setUpMap() {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(MAP_HOME, 12));
-        home_marker = mMap.addMarker(new MarkerOptions().snippet("User Chosen Marker").position(MAP_HOME).draggable(true).title("Purdue University"));
+        home_marker = mMap.addMarker(new MarkerOptions().position(MAP_HOME).draggable(true).title("Drag to location"));
         mMap.setOnMarkerDragListener((GoogleMap.OnMarkerDragListener) this);
     }
 
@@ -74,6 +79,7 @@ public class AddEventActivity extends ActionBarActivity implements OnMarkerDragL
         Log.d(getClass().getSimpleName(),
                 String.format("Dragging to %f:%f", position.latitude,
                         position.longitude));
+
     }
 
     @Override
@@ -83,6 +89,33 @@ public class AddEventActivity extends ActionBarActivity implements OnMarkerDragL
         Log.d(getClass().getSimpleName(), String.format("Dragged to %f:%f",
                 position.latitude,
                 position.longitude));
+        String address = getCompleteAddressString(position.latitude,position.longitude);
+        Toast.makeText(getApplicationContext(), "Marker Dragged to: " + position + "\nAddress:\n" + address , Toast.LENGTH_LONG).show();
+
+    }
+
+    private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
+        String strAdd = "";
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
+            if (addresses != null) {
+                Address returnedAddress = addresses.get(0);
+                StringBuilder strReturnedAddress = new StringBuilder("");
+
+                for (int i = 0; i < returnedAddress.getMaxAddressLineIndex(); i++) {
+                    strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
+                }
+                strAdd = strReturnedAddress.toString();
+                Log.w("My Current location address", "" + strReturnedAddress.toString());
+            } else {
+                Log.w("My Current location address", "No Address returned!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.w("My Current location address", "Cannot get Address!");
+        }
+        return strAdd;
     }
 
 
