@@ -63,7 +63,7 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
         fab.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Toast.makeText(getApplicationContext(), "FABulous Click!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "FABulous Click!", Toast.LENGTH_SHORT).show();
                 Intent nintent = new Intent(v.getContext(), AddEventActivity.class);
                 //Intent urlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.cs.purdue.edu"));
                 startActivity(nintent);
@@ -115,9 +115,8 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
     private void setUpMap() {
         refreshEvents();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(MAP_HOME, 12));
-        home_marker = mMap.addMarker(new MarkerOptions().snippet("9999").position(MAP_HOME).title("Purdue University"));
-        Marker sexDen = mMap.addMarker(new MarkerOptions().snippet("6969").position(new LatLng(40.425683, -86.904467)).title("The Sex Den"));
-        Marker lawson = mMap.addMarker(new MarkerOptions().snippet("1111").position(LWSN).title("Lawson Computer Science Building"));
+        home_marker = mMap.addMarker(new MarkerOptions().snippet("0000").position(MAP_HOME).title("Purdue University"));
+        Marker lawson = mMap.addMarker(new MarkerOptions().snippet("0003").position(LWSN).title("Lawson Computer Science Building"));
         mMap.setOnMarkerClickListener((OnMarkerClickListener) this);
     }
 

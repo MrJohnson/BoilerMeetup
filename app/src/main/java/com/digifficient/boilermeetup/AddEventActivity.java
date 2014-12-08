@@ -85,7 +85,7 @@ public class AddEventActivity extends ActionBarActivity implements OnMarkerDragL
     @Override
     public void onMarkerDragEnd(Marker marker) {
         LatLng position=marker.getPosition();
-        Toast.makeText(getApplicationContext(), "Marker Dragged to: " + marker.getPosition(), Toast.LENGTH_LONG).show();
+        //  Toast.makeText(getApplicationContext(), "Marker Dragged to: " + marker.getPosition(), Toast.LENGTH_LONG).show();
         Log.d(getClass().getSimpleName(), String.format("Dragged to %f:%f",
                 position.latitude,
                 position.longitude));

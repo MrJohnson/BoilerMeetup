@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:text="69 have RSVP'd"
+            android:text="2 have RSVP'd"
             android:id="@+id/rsvp"
             android:textSize="22sp"
             />
