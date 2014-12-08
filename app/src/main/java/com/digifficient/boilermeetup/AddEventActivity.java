@@ -16,6 +16,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,9 +29,8 @@ public class AddEventActivity extends ActionBarActivity implements OnMarkerDragL
     private GoogleMap mMap;
     private Marker home_marker;
     private Event e;
+    Calendar myCalendar = Calendar.getInstance();
 
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_event);
@@ -117,6 +117,8 @@ public class AddEventActivity extends ActionBarActivity implements OnMarkerDragL
         }
         return strAdd;
     }
+
+
 
 
 }
