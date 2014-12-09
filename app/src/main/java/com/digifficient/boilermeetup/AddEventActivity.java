@@ -17,7 +17,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -206,7 +205,7 @@ public class AddEventActivity extends ActionBarActivity implements OnMarkerDragL
     public void onMarkerDragStart(Marker marker) {
         LatLng position=marker.getPosition();
 
-        Log.d(getClass().getSimpleName(), String.format("Drag from %f:%f",
+        Log.d(((Object)this).getClass().getSimpleName(), String.format("Drag from %f:%f",
                 position.latitude,
                 position.longitude));
     }
@@ -216,7 +215,7 @@ public class AddEventActivity extends ActionBarActivity implements OnMarkerDragL
         LatLng position=marker.getPosition();
         marker.hideInfoWindow();
 
-        Log.d(getClass().getSimpleName(),
+        Log.d(((Object)this).getClass().getSimpleName(),
                 String.format("Dragging to %f:%f", position.latitude,
                         position.longitude));
 
@@ -226,7 +225,7 @@ public class AddEventActivity extends ActionBarActivity implements OnMarkerDragL
     public void onMarkerDragEnd(Marker marker) {
         LatLng position=marker.getPosition();
         //  Toast.makeText(getApplicationContext(), "Marker Dragged to: " + marker.getPosition(), Toast.LENGTH_LONG).show();
-        Log.d(getClass().getSimpleName(), String.format("Dragged to %f:%f",
+        Log.d(((Object)this).getClass().getSimpleName(), String.format("Dragged to %f:%f",
                 position.latitude,
                 position.longitude));
         String address = getCompleteAddressString(position.latitude,position.longitude);
