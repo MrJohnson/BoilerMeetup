@@ -145,7 +145,7 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
     @Override
     public boolean onMarkerClick(Marker marker){
         Log.i("GoogleMapActivity", "OnMarkerClick");
-        Toast.makeText(getApplicationContext(), "Marker Clicked: " + marker.getTitle() + "\nPosition " + marker.getPosition(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), "Marker Clicked: " + marker.getTitle() + "\nPosition " + marker.getPosition(), Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, EventInfoActivity.class);
         Bundle args = new Bundle();
         args.putString("id", marker.getSnippet());

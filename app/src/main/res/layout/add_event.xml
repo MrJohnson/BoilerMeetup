@@ -15,6 +15,13 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/event_type_field"
+        android:hint="@string/event_type_hint"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:inputType="textPostalAddress"
         android:ems="10"
         android:hint="@string/location_name_hint"
@@ -35,6 +42,7 @@
         android:ems="10"
         android:id="@+id/event_date_field"
         android:hint="@string/event_date_hint"
+        android:focusable="false"
        />
 
     <EditText
@@ -43,7 +51,9 @@
         android:inputType="time"
         android:ems="10"
         android:id="@+id/time_field"
-        android:hint="@string/event_time_hint"/>
+        android:hint="@string/event_time_hint"
+        android:focusable="false"
+        />
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"

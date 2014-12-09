@@ -79,7 +79,7 @@ public class EventInfoActivity extends ActionBarActivity implements GoogleMap.On
                             + "," + String.valueOf(marker.getPosition().longitude)));
         startActivity(openDirections);
 
-        Toast.makeText(getApplicationContext(), "Address: " + address + "\nPosition " + marker.getPosition(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), "Address: " + address + "\nPosition " + marker.getPosition(), Toast.LENGTH_LONG).show();
         return true;
     }
 
@@ -97,7 +97,7 @@ public class EventInfoActivity extends ActionBarActivity implements GoogleMap.On
         switch (item.getItemId()) {
             case R.id.action_event_info_refresh:
                 //send event info to server after checking
-                Toast.makeText(getApplicationContext(), "Clicked Refresh Event", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Clicked Refresh Event", Toast.LENGTH_SHORT).show();
                 return true;
             //case R.id.action_settings:
             //openSettings();
@@ -115,19 +115,25 @@ public class EventInfoActivity extends ActionBarActivity implements GoogleMap.On
 
         //GET STUFF FROM SERVER
         e.setName("TEST NAME");
+        e.setType("Generic type");
         e.setDescription("Generic description");
         e.setLocation("Generic location name");
         e.setStartTime("December 99, 9999 25:64 pm");
+        e.setNumAttendees(69);
 
         //Update GUI with values from server
         TextView name = (TextView) findViewById(R.id.EventName);
         name.setText(e.getName());
+        TextView type = (TextView) findViewById(R.id.EventType);
+        type.setText(e.getType());
         TextView description = (TextView) findViewById(R.id.EventDescription);
         description.setText(e.getDesription());
         TextView date = (TextView) findViewById(R.id.EventDate);
         date.setText(e.getStartTime());
         TextView location = (TextView) findViewById(R.id.EventLocationName);
         location.setText(e.getLocation());
+        TextView rsvp = (TextView) findViewById(R.id.rsvp);
+        rsvp.setText(e.getNumAttendees() + " have RSVP'd");
     }
 
     private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {

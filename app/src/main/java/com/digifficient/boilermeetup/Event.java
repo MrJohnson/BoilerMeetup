@@ -18,6 +18,7 @@ public class Event{
     private String description;
     private String startTime;
     private String endTime;
+    private String type;
     private int numAttendees;
 
     /*
@@ -37,6 +38,10 @@ public class Event{
 
     public String getName(){
         return this.name;
+    }
+
+    public String getType(){
+        return this.type;
     }
 
     public LatLng getPositiion(){
@@ -68,6 +73,10 @@ public class Event{
 
     public void setName(String name){
         this.name = name;
+    }
+
+    public void setType(String type){
+        this.type = type;
     }
 
     public void setPosition(LatLng position){
