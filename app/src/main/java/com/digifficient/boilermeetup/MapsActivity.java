@@ -200,6 +200,7 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
     }
 
     public String getEventsFromServer() throws IOException {
+        //Not Yet Functional
         String line = "";
         StringBuilder total = new StringBuilder();
         Socket socket = new Socket(serverAddress, 3112);
