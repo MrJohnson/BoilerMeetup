@@ -25,13 +25,21 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.melnykov.fab.FloatingActionButton;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MapsActivity extends ActionBarActivity implements OnMarkerClickListener{
+public class MapsActivity extends ActionBarActivity implements OnMarkerClickListener {
     private static final LatLng MAP_HOME = new LatLng(40.423680, -86.921195);
     private static final LatLng LWSN = new LatLng(40.427679, -86.916946);
+    String serverAddress = "128.10.25.212";
+    private BufferedReader in;
+    private PrintWriter out;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     int numEvents;
     //Event[] eventArray;
@@ -58,8 +66,8 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
                 Toast.makeText(getApplicationContext(), "Clicked Refresh", Toast.LENGTH_LONG).show();
                 return true;
             //case R.id.action_settings:
-                //openSettings();
-                //return true;
+            //openSettings();
+            //return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -77,12 +85,12 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
         */
 
         //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-          //  getWindow().setStatusBarColor();
+        //  getWindow().setStatusBarColor();
 
-        FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener(){
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 //Toast.makeText(getApplicationContext(), "FABulous Click!", Toast.LENGTH_SHORT).show();
                 Intent nintent = new Intent(v.getContext(), AddEventActivity.class);
                 //Intent urlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.cs.purdue.edu"));
@@ -141,9 +149,8 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
     }
 
 
-
     @Override
-    public boolean onMarkerClick(Marker marker){
+    public boolean onMarkerClick(Marker marker) {
         Log.i("GoogleMapActivity", "OnMarkerClick");
         //Toast.makeText(getApplicationContext(), "Marker Clicked: " + marker.getTitle() + "\nPosition " + marker.getPosition(), Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, EventInfoActivity.class);
@@ -156,8 +163,7 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
     }
 
 
-
-    public void refreshEvents(){
+    public void refreshEvents() {
         //communicate with server, populate array of events
         numEvents = 2;
         /*
@@ -190,6 +196,29 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
         markers.size();
 
         */
+
+    }
+
+    public String getEventsFromServer() throws IOException {
+        String line = "";
+        StringBuilder total = new StringBuilder();
+        Socket socket = new Socket(serverAddress, 3112);
+        try {
+
+            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            out = new PrintWriter(socket.getOutputStream(), true);
+
+            while ((line = in.readLine()) != null) {
+                total.append(line);
+            }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            socket.close();
+            return total.toString();
+        }
 
     }
 
