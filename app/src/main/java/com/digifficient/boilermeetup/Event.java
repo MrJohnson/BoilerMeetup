@@ -17,6 +17,7 @@ public class Event{
     private String location;
     private String description;
     private String startTime;
+    private String endTime;
     private int numAttendees;
 
     /*
@@ -54,6 +55,8 @@ public class Event{
         return this.startTime;
     }
 
+    public String getEndTime(){return this.endTime; }
+
     public int getNumAttendees(){
         return this.numAttendees;
     }
@@ -82,6 +85,8 @@ public class Event{
     public void setStartTime(String startTime){
         this.startTime = startTime;
     }
+
+    public void setEndTime(String endTime) { this.endTime = endTime; }
 
     public void setNumAttendees(int numAttendees){
        this.numAttendees = numAttendees;

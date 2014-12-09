@@ -123,7 +123,7 @@ public class AddEventActivity extends ActionBarActivity implements OnMarkerDragL
         EditText location = (EditText) findViewById(R.id.location_name_field);
         String customLocName = location.getText().toString();
         if(customLocName.trim().length() == 0 ){
-            Toast.makeText(getApplicationContext(), "NO ADDRESS SPECIFIED BY USER" , Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "ADDRESS STRING EMPTY" , Toast.LENGTH_SHORT).show();
             location.setText(address, TextView.BufferType.EDITABLE);
         }
         Toast.makeText(getApplicationContext(), "Marker Dragged to: " + position + "\nAddress:\n" + address , Toast.LENGTH_LONG).show();
@@ -143,9 +143,9 @@ public class AddEventActivity extends ActionBarActivity implements OnMarkerDragL
                     strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
                 }
                 strAdd = strReturnedAddress.toString();
-                Log.w("My Current location address", "" + strReturnedAddress.toString());
+                Log.w("Marker at", "" + strReturnedAddress.toString());
             } else {
-                Log.w("My Current location address", "No Address returned!");
+                Log.w("Marker at", "No Address returned!");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -153,8 +153,6 @@ public class AddEventActivity extends ActionBarActivity implements OnMarkerDragL
         }
         return strAdd;
     }
-
-
 
 
 }
