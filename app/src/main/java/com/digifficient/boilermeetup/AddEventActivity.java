@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Created by taylor on 12/3/14.
+ * Created by Taylor Johnson on 12/3/14.
  */
 public class AddEventActivity extends ActionBarActivity implements OnMarkerDragListener{
 
