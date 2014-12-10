@@ -53,6 +53,7 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
     List<Marker> markers = new ArrayList<Marker>();
     private Marker home_marker;
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
