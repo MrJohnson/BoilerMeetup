@@ -1,0 +1,18 @@
+<resources>
+    <string name="google_maps_key_instructions" templateMergeStrategy="replace"><!--
+
+
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=FE:4F:25:36:47:80:31:6C:00:10:D3:0C:CD:4E:DF:B8:93:B2:3E:1C%3Bcom.digifficient.boilermeetup
+
+    You can also add your credentials to an existing key, using this line:
+    FE:4F:25:36:47:80:31:6C:00:10:D3:0C:CD:4E:DF:B8:93:B2:3E:1C;com.digifficient.boilermeetup
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    --></string>
+
+    <string name="google_maps_key" templateMergeStrategy="preserve">YOUR_KEY_HERE</string>
+</resources>
