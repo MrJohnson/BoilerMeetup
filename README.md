@@ -1,13 +1,17 @@
 BoilerMeetup
+  
   This is a Fall 2014 CS252 project.
   
-  GOAL: 
+  This android app allows users to connect with others through events open to the community.
+  Users can create events which others can find on a map.
+  Users can RSVP to events.
   
-  This app allows users to connect with others through events open to the community.
-  Users can create events which others can find by the type of event, location, etc.
-  Users can RSVP to events until the maximum capacity for the event is reached, unless no maximum is specified.
+  The server is implmented in java using a mysql database and communicates with clients over the internet using JSON.
+  
+  Created by:
+    Taylor T. Johnson
+    Brooks Remy
+    Josh Foeh
+    Rachel Gully
   
 ============
-
-
-Maybe add elements from https://github.com/navasmdc/MaterialDesignLibrary
