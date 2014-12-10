@@ -9,6 +9,7 @@ BoilerMeetup
   The server is implmented in java using a mysql database and communicates with clients over the internet using JSON.
   
   Created by:
+  
     Taylor T. Johnson
     Brooks Remy
     Josh Foeh
