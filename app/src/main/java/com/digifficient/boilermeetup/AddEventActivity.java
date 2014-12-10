@@ -214,10 +214,11 @@ public class AddEventActivity extends ActionBarActivity implements OnMarkerDragL
     public void onMarkerDrag(Marker marker) {
         LatLng position=marker.getPosition();
         marker.hideInfoWindow();
-
+        /*
         Log.d(((Object)this).getClass().getSimpleName(),
                 String.format("Dragging to %f:%f", position.latitude,
                         position.longitude));
+                        */
 
     }
 
@@ -266,10 +267,6 @@ public class AddEventActivity extends ActionBarActivity implements OnMarkerDragL
         }
         return strAdd;
     }
-
-
-
-
 
 
 }

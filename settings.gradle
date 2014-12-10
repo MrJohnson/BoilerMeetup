@@ -1,1 +1,1 @@
-include ':app', ':fab_library'
+include ':app', ':fab_library', ':json-simple-1.1.1'

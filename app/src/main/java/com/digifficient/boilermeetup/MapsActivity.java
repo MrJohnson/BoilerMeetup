@@ -3,6 +3,7 @@ package com.digifficient.boilermeetup;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -16,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.android.gms.gcm.Task;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
@@ -25,19 +27,24 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.melnykov.fab.FloatingActionButton;
 
+import org.json.JSONObject;
+import org.json.JSONArray;
+
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
 public class MapsActivity extends ActionBarActivity implements OnMarkerClickListener {
     private static final LatLng MAP_HOME = new LatLng(40.423680, -86.921195);
     private static final LatLng LWSN = new LatLng(40.427679, -86.916946);
-    String serverAddress = "128.10.25.212";
+    String serverAddress = "128.10.12.141";
     private BufferedReader in;
     private PrintWriter out;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -63,7 +70,15 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
                 Toast.makeText(getApplicationContext(), "Clicked Search", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_refresh:
-                Toast.makeText(getApplicationContext(), "Clicked Refresh", Toast.LENGTH_LONG).show();
+                //get events from server
+                //Toast.makeText(getApplicationContext(), "Clicked Refresh", Toast.LENGTH_LONG).show();
+                try {
+                    FetchEventsTask eventTask = new FetchEventsTask();
+                    eventTask.execute();
+                }
+                catch(Exception e){
+                    Log.d(((Object)this).getClass().getSimpleName(), "Exception in getEventsFromServer call - refresh click");
+                }
                 return true;
             //case R.id.action_settings:
             //openSettings();
@@ -141,11 +156,16 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        refreshEvents();
+        //refreshEvents();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(MAP_HOME, 12));
-        home_marker = mMap.addMarker(new MarkerOptions().snippet("0000").position(MAP_HOME).title("Purdue University"));
-        Marker lawson = mMap.addMarker(new MarkerOptions().snippet("0003").position(LWSN).title("Lawson Computer Science Building"));
+        //home_marker = mMap.addMarker(new MarkerOptions().snippet("0000").position(MAP_HOME).title("Purdue University"));
+        //Marker lawson = mMap.addMarker(new MarkerOptions().snippet("0003").position(LWSN).title("Lawson Computer Science Building"));
         mMap.setOnMarkerClickListener((OnMarkerClickListener) this);
+       // FetchEventsTask fetchTask
+        //Log.d(((Object)this).getClass().getSimpleName(), "IOException in getEventsFromServer call - setUpMap");
+        FetchEventsTask eventTask = new FetchEventsTask();
+        eventTask.execute();
+
     }
 
 
@@ -163,65 +183,83 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
     }
 
 
-    public void refreshEvents() {
-        //communicate with server, populate array of events
-        numEvents = 2;
-        /*
-        eventArray = new Event[numEvents];
 
-        eventArray[0].setEventId(1111);
-        eventArray[0].setName("Purdue Event");
-        eventArray[0].setLocation("Purdue University");
-        eventArray[0].setStartTime("Dec. 25, 2014 @ 12:00 am");
-        eventArray[0].setPosition(MAP_HOME);
-        eventArray[0].setDescription("This is Purdue University");
-        eventArray[0].setNumAttendees(40000);
+        public class FetchEventsTask extends AsyncTask<Void, Void, LinkedList<Event>>{
 
-        eventArray[1].setEventId(1010);
-        eventArray[1].setName("CS252 Coding Session");
-        eventArray[1].setLocation("LWSN B146");
-        eventArray[1].setStartTime("Dec. 8, 2014 @ 2:00 pm");
-        eventArray[1].setPosition(LWSN);
-        eventArray[1].setDescription("We will meet to continue working on our app!");
-        eventArray[1].setNumAttendees(1);
-        */
+        String serverAddress = "128.10.12.141";
+        private BufferedReader in;
+        private PrintWriter out;
 
-        /*
-        for(int i = 0; i < numEvents; i++){
-            //Marker snippet is index of event in a
-            Marker marker = mMap.addMarker(new MarkerOptions().snippet(Integer.toString(i)).position(eventArray[i].getPositiion()).title(eventArray[i].getName()));
-            markers.add(marker);
-        }
+        //@Override
+        protected LinkedList<Event> doInBackground(Void... params){
+            LinkedList<Event> events = new LinkedList<Event>();
+            try {
+                String line = "";
+                StringBuilder total = new StringBuilder();
+                //Log.d(((Object)this).getClass().getSimpleName(), "BEFORE SOCKET");
+                //Toast.makeText(getApplicationContext(), "Right before try", Toast.LENGTH_LONG).show();
+                //Socket socket = null;
+                Socket socket = new Socket(serverAddress, 3112);
+                //Log.d(((Object)this).getClass().getSimpleName(), "AFTER SOCKET");
+                try {
+                    //socket = new Socket(serverAddress, 3112);
+                    in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                    out = new PrintWriter(socket.getOutputStream(), true);
+                    //Object ob = null;
+                   // Log.d(((Object)this).getClass().getSimpleName(), "BEFORE SENDING");
+                    JSONObject obj = new JSONObject();
+                    obj.put("command", "GET-ALL-EVENTS");
+                    out.println(obj.toString());
+                    //Log.d(((Object)this).getClass().getSimpleName(), "AFTER SENDING");
+                    //Toast.makeText(getApplicationContext(), "Right after sending to server", Toast.LENGTH_LONG).show();
 
-        markers.size();
+                    JSONObject jsonObj;
 
-        */
+                    while ((line = in.readLine()) != null) {
+                        try {
+                            Event event = new Event();
+                            //Log.d(((Object)this).getClass().getSimpleName(), "LINE " + line);
+                            jsonObj = new JSONObject(line);
 
-    }
+                            //ob = parser.parse(line);
+                            //jsonObj = (JSONObject) ob;
+                            event.setEventId(jsonObj.getInt("id"));
+                            //Log.d(((Object)this).getClass().getSimpleName(), "TTEESSTTT. LAT: " + jsonObj.getString("lat"));
+                            event.setPosition(new LatLng(Double.parseDouble(jsonObj.getString("lat")),Double.parseDouble(jsonObj.getString("longe"))));
+                            //Log.d(((Object)this).getClass().getSimpleName(), "AFTER SENDING. ID: " + event.getEventId() + "POS: " + event.getPositiion());
+                            //MarkerOptions marker = new MarkerOptions().snippet(Integer.toString(event.getEventId())).position(event.getPositiion());
+                            events.add(event);
+                        }
+                        catch(Exception e){
+                            Log.d(((Object)this).getClass().getSimpleName(), "EXCEPTION " + e.getMessage());
+                            //e.printStackTrace();
+                        }
+                    }
 
-    public String getEventsFromServer() throws IOException {
-        //Not Yet Functional
-        String line = "";
-        StringBuilder total = new StringBuilder();
-        Socket socket = new Socket(serverAddress, 3112);
-        try {
-
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            out = new PrintWriter(socket.getOutputStream(), true);
-
-            while ((line = in.readLine()) != null) {
-                total.append(line);
+                } catch (Exception e) {
+                    Log.d(((Object)this).getClass().getSimpleName(), "CAUGHT EXCEPTION");
+                    //e.printStackTrace();
+                } finally {
+                    socket.close();
+                    return events;
+                }
             }
+            catch(IOException e){
+                Log.d(((Object)this).getClass().getSimpleName(), "IOException in getEventsFromServer call - setUpMap");
+            }
+            return events;
+        }
 
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            socket.close();
-            return total.toString();
+        protected void onPostExecute(LinkedList<Event> events){
+            for(int i = 0; i < events.size(); i++){
+                mMap.addMarker(new MarkerOptions().snippet(Integer.toString(events.get(i).getEventId())).position(events.get(i).getPositiion()));
+            }
         }
 
     }
+
+
 
 
 }
