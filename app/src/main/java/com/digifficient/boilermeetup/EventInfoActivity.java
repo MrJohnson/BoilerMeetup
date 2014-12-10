@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,8 +48,20 @@ public class EventInfoActivity extends ActionBarActivity implements GoogleMap.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_view);
         //e = new Event();
-        getEventInfo();
+        //getEventInfo();
         setUpMapIfNeeded();
+
+        Button button= (Button) findViewById(R.id.rsvp_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // send info to server
+                RSVPTask eventTask = new RSVPTask();
+                eventTask.execute(e.getEventId());
+                Toast.makeText(getApplicationContext(), "Sucessfully RSVP'd!", Toast.LENGTH_SHORT).show();
+                getEventInfo();
+            }
+        });
 
     }
 
@@ -71,6 +85,7 @@ public class EventInfoActivity extends ActionBarActivity implements GoogleMap.On
     }
 
     private void setUpMap() {
+        getEventInfo();
         eMap.moveCamera(CameraUpdateFactory.newLatLngZoom(e.getPositiion(), 15));
         Marker eMarker = eMap.addMarker(new MarkerOptions().snippet(Integer.toString(e.getEventId())).position(e.getPositiion()).title("EVENT NAME"));
         eMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) this);
@@ -105,6 +120,7 @@ public class EventInfoActivity extends ActionBarActivity implements GoogleMap.On
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_event_info_refresh:
+                getEventInfo();
                 //send event info to server after checking
                 //Toast.makeText(getApplicationContext(), "Clicked Refresh Event", Toast.LENGTH_SHORT).show();
                 return true;
@@ -129,25 +145,6 @@ public class EventInfoActivity extends ActionBarActivity implements GoogleMap.On
             Log.d(((Object)this).getClass().getSimpleName(), "Exception in getEventsFromServer call - refresh click");
         }
 
-        //READ THIS
-        //in onPostExecute I just set the event i made in background = to global event
-        //then I kept the code we already had to set event parameters on screen
-        //all values i set for the event in background are now null though, not sure why
-
-        //Update GUI with values from server
-        TextView name = (TextView) findViewById(R.id.EventName);
-        name.setText(e.getName());
-        Log.d(((Object)this).getClass().getSimpleName(), "!!!NAME: " + e.getName() + " ID: " + e.getEventId());
-        TextView type = (TextView) findViewById(R.id.EventType);
-        type.setText(e.getType());
-        TextView description = (TextView) findViewById(R.id.EventDescription);
-        description.setText(e.getDesription());
-        TextView date = (TextView) findViewById(R.id.EventDate);
-        date.setText(e.getStartTime());
-        TextView location = (TextView) findViewById(R.id.EventLocationName);
-        location.setText(e.getLocation());
-        TextView rsvp = (TextView) findViewById(R.id.rsvp);
-        rsvp.setText(e.getNumAttendees() + " have RSVP'd");
     }
 
     private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
@@ -188,35 +185,26 @@ public class EventInfoActivity extends ActionBarActivity implements GoogleMap.On
                 String line = "";
                 Socket socket = new Socket(serverAddress, 3112);
                 try {
-                    //socket = new Socket(serverAddress, 3112);
                     in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                     out = new PrintWriter(socket.getOutputStream(), true);
                     JSONObject obj = new JSONObject();
                     obj.put("command", "GET-EVENT-INFO");
                     int x = 5;
                     obj.put("id", (int)params[0]);
-                    //Log.d(((Object)this).getClass().getSimpleName(), "!!!PARAMS: " + (int)params[0]);
                     out.println(obj.toString());
 
                     JSONObject jsonObj;
 
                     line = in.readLine();
-                    //Log.d(((Object)this).getClass().getSimpleName(), "!!!LINE: " + line);
                     try {
                         jsonObj = new JSONObject(line);
                         event.setEventId(jsonObj.getInt("id"));
                         event.setPosition(new LatLng(Double.parseDouble(jsonObj.getString("lat")),Double.parseDouble(jsonObj.getString("longe"))));
                         event.setName(jsonObj.getString("name"));
-                        //Log.d(((Object)this).getClass().getSimpleName(), "!!!NAME: " + event.getName());
                         event.setLocation(jsonObj.getString("location"));
-                        //Log.d(((Object)this).getClass().getSimpleName(), "!!!LOCATION: " + event.getLocation());
                         event.setDescription(jsonObj.getString("description"));
-                        //Log.d(((Object)this).getClass().getSimpleName(), "!!!DESCRIPTION: " + event.getDesription());
                         event.setStartTime(jsonObj.getString("startTime"));
-                        //Log.d(((Object)this).getClass().getSimpleName(), "!!!STARTTIME: " + event.getStartTime());
                         event.setNumAttendees(jsonObj.getInt("numAttendees"));
-                        //Log.d(((Object)this).getClass().getSimpleName(), "!!!NUMATTENDEES: " + event.getNumAttendees());
-                        //Log.d(((Object)this).getClass().getSimpleName(), "AFTER SENDING. ID: " + event.getEventId() + "POS: " + event.getPositiion());
                     }
                     catch(Exception e){
                         Log.d(((Object)this).getClass().getSimpleName(), "EXCEPTION " + e.getMessage());
@@ -238,11 +226,62 @@ public class EventInfoActivity extends ActionBarActivity implements GoogleMap.On
 
 
         protected void onPostExecute(Event event){
-            //eMap.addMarker(new MarkerOptions().snippet(Integer.toString(event.getEventId())).position(event.getPositiion()));
-            Log.d(((Object)this).getClass().getSimpleName(), "EVENT !!!NAME: " + event.getName() + " ID: " + event.getEventId());
             e = event;
-            Log.d(((Object)this).getClass().getSimpleName(), "E !!!NAME: " + e.getName() + " ID: " + e.getEventId());
-            //this is setting e correctly? just not when it's accessed in the other function
+            TextView name = (TextView) findViewById(R.id.EventName);
+            name.setText(e.getName());
+            Log.d(((Object)this).getClass().getSimpleName(), "!!!NAME: " + e.getName() + " ID: " + e.getEventId());
+            TextView type = (TextView) findViewById(R.id.EventType);
+            type.setText(e.getType());
+            TextView description = (TextView) findViewById(R.id.EventDescription);
+            description.setText(e.getDesription());
+            TextView date = (TextView) findViewById(R.id.EventDate);
+            date.setText(e.getStartTime());
+            TextView location = (TextView) findViewById(R.id.EventLocationName);
+            location.setText(e.getLocation());
+            TextView rsvp = (TextView) findViewById(R.id.rsvp);
+            rsvp.setText(e.getNumAttendees() + " have RSVP'd");
+
+        }
+
+    }
+
+
+    public class RSVPTask extends AsyncTask<Integer, Void, Void> {
+
+        String serverAddress = "128.10.12.141";
+        private BufferedReader in;
+        private PrintWriter out;
+
+        //@Override
+        protected Void doInBackground(Integer... params){
+            try {
+                String line = "";
+                Socket socket = new Socket(serverAddress, 3112);
+                try {
+                    in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                    out = new PrintWriter(socket.getOutputStream(), true);
+                    JSONObject obj = new JSONObject();
+                    obj.put("command", "ATTEND-EVENT");
+                    obj.put("id", (int)params[0]);
+                    //Log.d(((Object)this).getClass().getSimpleName(), "!!!PARAMS: " + (int)params[0]);
+                    out.println(obj.toString());
+
+                } catch (Exception e) {
+                    Log.d(((Object)this).getClass().getSimpleName(), "CAUGHT EXCEPTION");
+                    //e.printStackTrace();
+                } finally {
+                    socket.close();
+                    return null;
+                }
+            }
+            catch(IOException e){
+                Log.d(((Object)this).getClass().getSimpleName(), "IOException in getEventsFromServer call - setUpMap");
+            }
+            return null;
+        }
+
+
+        protected void onPostExecute(){
 
         }
 

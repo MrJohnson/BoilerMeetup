@@ -1,9 +1,12 @@
 package com.digifficient.boilermeetup;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
@@ -17,6 +20,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,6 +30,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -127,7 +138,6 @@ public class AddEventActivity extends ActionBarActivity implements OnMarkerDragL
 
 
 
-
     }
 
     private void updateLabel(){
@@ -163,6 +173,16 @@ public class AddEventActivity extends ActionBarActivity implements OnMarkerDragL
                 e.setDescription(description.getText().toString());
                 e.setPosition(home_marker.getPosition());
 
+                String myFormat = "yyyy-MM-dd hh:mm:ss";
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                e.setStartTime(sdf.format(myCalendar.getTime()));
+
+                SendEventTask eventTask = new SendEventTask();
+                eventTask.execute(e);
+
+                Toast.makeText(getApplicationContext(), "Event added!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
+                startActivity(intent);
 
 
                 //Toast.makeText(getApplicationContext(), "name: " + e.getName() + "location: " + e.getLocation() + " descrip: " + e.getDesription() + "pos: " + e.getPositiion(), Toast.LENGTH_LONG).show();
@@ -268,5 +288,57 @@ public class AddEventActivity extends ActionBarActivity implements OnMarkerDragL
         return strAdd;
     }
 
+
+    public class SendEventTask extends AsyncTask<Event, Void, Void> {
+
+        String serverAddress = "128.10.12.141";
+        private BufferedReader in;
+        private PrintWriter out;
+
+        //@Override
+        protected Void doInBackground(Event... params){
+            Event event = new Event();
+            event = params[0];
+            try {
+                String line = "";
+                Socket socket = new Socket(serverAddress, 3112);
+                try {
+                    in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                    out = new PrintWriter(socket.getOutputStream(), true);
+                    JSONObject obj = new JSONObject();
+                    obj.put("command", "ADD-EVENT");
+                    obj.put("id", event.getEventId());
+                    obj.put("name", event.getName());
+                    obj.put("lat", Double.toString(event.getPositiion().latitude));
+                    obj.put("longe", Double.toString(event.getPositiion().longitude));
+                    obj.put("location", event.getLocation());
+                    obj.put("description", event.getDesription());
+                    obj.put("numAttendees", 1);
+                    obj.put("startTime", e.getStartTime());
+
+                    out.println(obj.toString());
+
+                } catch (Exception e) {
+                    Log.d(((Object)this).getClass().getSimpleName(), "CAUGHT EXCEPTION");
+                    //e.printStackTrace();
+                } finally {
+                    socket.close();
+                    return null;
+                }
+            }
+            catch(IOException e){
+                Log.d(((Object)this).getClass().getSimpleName(), "IOException in getEventsFromServer call - setUpMap");
+            }
+            return null;
+        }
+
+
+        protected void onPostExecute(){
+
+
+
+        }
+
+    }
 
 }

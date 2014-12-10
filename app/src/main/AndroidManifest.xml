@@ -44,7 +44,7 @@
         <activity
             android:name="com.digifficient.boilermeetup.EventInfoActivity"
             android:label="@string/title_event_info_activity"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            android:theme="@style/Theme.AppCompat"
           >
         </activity>
 

@@ -65,10 +65,12 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
+            /*
             case R.id.action_search:
                 //openSearch();
                 Toast.makeText(getApplicationContext(), "Clicked Search", Toast.LENGTH_SHORT).show();
                 return true;
+                */
             case R.id.action_refresh:
                 //get events from server
                 //Toast.makeText(getApplicationContext(), "Clicked Refresh", Toast.LENGTH_LONG).show();

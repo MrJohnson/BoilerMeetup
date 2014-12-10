@@ -51,7 +51,8 @@
             android:textSize="22sp"
             />
 
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
             android:layout_height="0px" android:layout_weight="50" android:id="@+id/map" tools:context=".MapsActivity"
             android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -71,6 +72,14 @@
             android:id="@+id/rsvp"
             android:textSize="22sp"
             />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:text="+1"
+            android:id="@+id/rsvp_button" />
     </RelativeLayout>
 
     </LinearLayout>
