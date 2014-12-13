@@ -1,10 +1,6 @@
 package com.digifficient.boilermeetup;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
 
-import com.google.android.gms.internal.id;
 import com.google.android.gms.maps.model.LatLng;
 
 /**

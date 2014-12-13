@@ -1,10 +1,7 @@
 package com.digifficient.boilermeetup;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -12,12 +9,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ImageButton;
-import android.widget.Toast;
-
-import com.google.android.gms.gcm.Task;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
@@ -26,32 +17,19 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.melnykov.fab.FloatingActionButton;
-
 import org.json.JSONObject;
-import org.json.JSONArray;
-
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 
 public class MapsActivity extends ActionBarActivity implements OnMarkerClickListener {
     private static final LatLng MAP_HOME = new LatLng(40.423680, -86.921195);
-    private static final LatLng LWSN = new LatLng(40.427679, -86.916946);
-    String serverAddress = "128.10.12.141";
-    private BufferedReader in;
-    private PrintWriter out;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-    int numEvents;
-    //Event[] eventArray;
-    List<Marker> markers = new ArrayList<Marker>();
-    private Marker home_marker;
+
 
 
     @Override
@@ -95,15 +73,6 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-/*
-        Window window = activity.getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(activity.getResources().getColor(R.color.example_color));
-        */
-
-        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        //  getWindow().setStatusBarColor();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -189,7 +158,7 @@ public class MapsActivity extends ActionBarActivity implements OnMarkerClickList
 
         public class FetchEventsTask extends AsyncTask<Void, Void, LinkedList<Event>>{
 
-        String serverAddress = "128.10.12.141";
+        String serverAddress = getString(R.string.server_address);
         private BufferedReader in;
         private PrintWriter out;
 

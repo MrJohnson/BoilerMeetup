@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -174,7 +173,7 @@ public class EventInfoActivity extends ActionBarActivity implements GoogleMap.On
 
     public class FetchEventTask extends AsyncTask<Integer, Void, Event> {
 
-        String serverAddress = "128.10.12.141";
+        String serverAddress = getString(R.string.server_address);
         private BufferedReader in;
         private PrintWriter out;
 
@@ -248,7 +247,7 @@ public class EventInfoActivity extends ActionBarActivity implements GoogleMap.On
 
     public class RSVPTask extends AsyncTask<Integer, Void, Void> {
 
-        String serverAddress = "128.10.12.141";
+        String serverAddress = getString(R.string.server_address);
         private BufferedReader in;
         private PrintWriter out;
 

@@ -1,6 +1,6 @@
 package com.digifficient.boilermeetup;
 
-import android.app.Activity;
+
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -291,7 +291,8 @@ public class AddEventActivity extends ActionBarActivity implements OnMarkerDragL
 
     public class SendEventTask extends AsyncTask<Event, Void, Void> {
 
-        String serverAddress = "128.10.12.141";
+        String serverAddress = getString(R.string.server_address)
+                ;
         private BufferedReader in;
         private PrintWriter out;
 

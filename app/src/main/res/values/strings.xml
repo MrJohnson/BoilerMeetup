@@ -21,5 +21,6 @@
     <string name="event_refresh_hint">Refresh events</string>
     <string name="event_info_refresh_hint">Refresh event info</string>
     <string name="done_editing_event_info">Done</string>
+    <string name="server_address">28.10.12.141</string>
 </resources>
 
